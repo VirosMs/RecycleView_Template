@@ -27,6 +27,14 @@ public class MostrarElementoFragment extends Fragment {
 
         ElementosViewModel elementosViewModel = new ViewModelProvider(requireActivity()).get(ElementosViewModel.class);
 
+        elementosViewModel.seleccionado().observe(getViewLifecycleOwner(), elemento -> {
+            binding.nombre.setText(elemento.nombre);
+            binding.descripcion.setText(elemento.descripcion);
+            binding.valoracion.setRating(elemento.valoracion);
 
+            binding.valoracion.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+                if(fromUser) elementosViewModel.actualizar(elemento, rating);
+            });
+        });
     }
 }
